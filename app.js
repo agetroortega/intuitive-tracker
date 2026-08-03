@@ -518,7 +518,7 @@ function App() {
       apply(s=>({...s,lastExport:today}));
       showToast("Export ready");
     } catch(e) {
-      showToast("Export failed");
+      showToast(e?.name==="AbortError"?"Export cancelled":"Export failed");
     }
   };
   const importData=()=>{

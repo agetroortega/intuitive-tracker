@@ -42,6 +42,27 @@
     }
   }
 
+  async function saveWithPicker(pickerRef, blob, filename) {
+    if (!pickerRef || typeof pickerRef.showSaveFilePicker !== "function") return false;
+
+    const handle = await pickerRef.showSaveFilePicker({
+      suggestedName: filename,
+      types: [
+        {
+          description: "JSON backup",
+          accept: { "application/json": [".json"] }
+        }
+      ]
+    });
+    const writable = await handle.createWritable();
+    try {
+      await writable.write(blob);
+    } finally {
+      await writable.close();
+    }
+    return true;
+  }
+
   async function exportTrackingData(options) {
     const {
       entries,
@@ -49,13 +70,20 @@
       date,
       navigatorRef = global.navigator,
       documentRef = global.document,
-      urlRef = global.URL
+      urlRef = global.URL,
+      pickerRef = global
     } = options;
 
     const filename = backupFilename(date);
     const blob = createBackupBlob(entries, fields);
     const canBuildFile = typeof global.File === "function";
     const file = canBuildFile ? new global.File([blob], filename, { type: "application/json" }) : null;
+
+    try {
+      if (await saveWithPicker(pickerRef, blob, filename)) return { method: "picker", filename };
+    } catch (e) {
+      if (e && e.name === "AbortError") throw e;
+    }
 
     if (file && canShareFile(navigatorRef, file)) {
       try {
@@ -73,6 +101,7 @@
     createBackupBlob,
     canShareFile,
     downloadBlob,
+    saveWithPicker,
     exportTrackingData
   };
 })(typeof window !== "undefined" ? window : globalThis);
