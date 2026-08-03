@@ -13,18 +13,18 @@ IndexedDB under the origin, with a localStorage copy as a fallback. That means:
 - Redeploying new code does **not** touch it — different storage.
 - It does not sync between devices. One phone, one log.
 
-So export periodically. **Export data** opens the Android share sheet (or drops
-a `daily-log-YYYY-MM-DD.json` in Downloads if sharing isn't available). Put it
-in Drive, or send it to yourself. **Import** merges a backup back in — days that
-already exist on the device win, so importing an old file can't clobber recent
-entries.
+So export periodically. **Export data** opens a save picker when the browser
+supports it, then falls back to the Android share sheet or a
+`daily-log-YYYY-MM-DD.json` download. Put it in Drive, or send it to yourself.
+**Import** merges a backup back in — days that already exist on the device win,
+so importing an old file can't clobber recent entries.
 
 ## Updating it
 
-Edit `app.js`, push, and bump the cache version in `sw.js`:
+Edit the app files, push, and bump the cache version in `sw.js`:
 
 ```js
-const CACHE = "intuitive-tracker-v2";   // was v1
+const CACHE = "intuitive-tracker-v3";   // was v2
 ```
 
 Without that bump the service worker may serve the old file for a launch or two.

@@ -1,5 +1,5 @@
 /* Bump CACHE when you change any file — old caches are dropped on activate. */
-const CACHE = "intuitive-tracker-v2";
+const CACHE = "intuitive-tracker-v3";
 const SHELL = [
   "./",
   "./index.html",
