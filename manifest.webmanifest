@@ -1,6 +1,6 @@
 {
-  "name": "Daily Log",
-  "short_name": "Daily Log",
+  "name": "Intuitive Tracker",
+  "short_name": "Intuitive Tracker",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

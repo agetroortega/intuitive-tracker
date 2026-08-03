@@ -1,4 +1,4 @@
-# Daily Log
+# Intuitive Tracker
 
 A single-page habit and measurement tracker that installs to your Android home
 screen as a PWA. No build step, no framework toolchain, no accounts, no server
@@ -24,7 +24,7 @@ entries.
 Edit `app.js`, push, and bump the cache version in `sw.js`:
 
 ```js
-const CACHE = "daily-log-v2";   // was v1
+const CACHE = "intuitive-tracker-v2";   // was v1
 ```
 
 Without that bump the service worker may serve the old file for a launch or two.
@@ -38,7 +38,7 @@ confirmation screen showing each field, what it would replace, and Apply / Disca
 
 Three ways in:
 
-1. **Share sheet.** Once installed, "Daily Log" appears in Android's share menu.
+1. **Share sheet.** Once installed, "Intuitive Tracker" appears in Android's share menu.
    Select the JSON in a chat, share it to the app.
 2. **Link.** `https://YOUR-URL/#patch=<base64 of the JSON>` — tappable from
    anywhere, opens the installed app.
