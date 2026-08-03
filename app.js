@@ -1,11 +1,12 @@
 /* Intuitive Tracker — standalone PWA
    Data lives in IndexedDB on this device (mirrored to localStorage as a fallback).
-   Nothing is ever sent anywhere. Export writes a .json to your Downloads folder.
+   Nothing is ever sent anywhere. Export shares or saves a .json backup locally.
 */
 
 const { h, render } = preact;
 const { useState, useEffect, useMemo, useRef } = preactHooks;
 const html = htm.bind(h);
+const { exportTrackingData } = window.IntuitiveTrackerExport;
 
 /* ---------------- tokens ---------------- */
 const C = {
@@ -507,12 +508,18 @@ function App() {
   const readPaste=()=>{ const p=parsePatch(pasteText); if(p) setPending({patch:p}); else showToast("Couldn't read that as a patch"); };
 
   /* export / import */
-  const exportData=()=>{
-    const blob=new Blob([JSON.stringify({entries:store.current.entries,fields:store.current.fields},null,2)],{type:"application/json"});
-    const name="daily-log-"+today+".json";
-    if(navigator.share) { navigator.share({files:[new File([blob],name,{type:"application/json"})],title:"Intuitive Tracker"}).catch(()=>{}); }
-    else { const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name; a.click(); }
-    apply(s=>({...s,lastExport:today}));
+  const exportData=async()=>{
+    try {
+      await exportTrackingData({
+        entries:store.current.entries,
+        fields:store.current.fields,
+        date:today
+      });
+      apply(s=>({...s,lastExport:today}));
+      showToast("Export ready");
+    } catch(e) {
+      showToast("Export failed");
+    }
   };
   const importData=()=>{
     if(!restorePaste.trim()) return;

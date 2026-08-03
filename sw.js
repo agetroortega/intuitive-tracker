@@ -1,9 +1,10 @@
 /* Bump CACHE when you change any file — old caches are dropped on activate. */
-const CACHE = "intuitive-tracker-v1";
+const CACHE = "intuitive-tracker-v2";
 const SHELL = [
   "./",
   "./index.html",
   "./styles.css",
+  "./export-utils.js",
   "./app.js",
   "./manifest.webmanifest",
   "./vendor/preact.js",
