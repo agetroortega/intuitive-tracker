@@ -1,4 +1,4 @@
-/* Daily Log — standalone PWA
+/* Intuitive Tracker — standalone PWA
    Data lives in IndexedDB on this device (mirrored to localStorage as a fallback).
    Nothing is ever sent anywhere. Export writes a .json to your Downloads folder.
 */
@@ -510,7 +510,7 @@ function App() {
   const exportData=()=>{
     const blob=new Blob([JSON.stringify({entries:store.current.entries,fields:store.current.fields},null,2)],{type:"application/json"});
     const name="daily-log-"+today+".json";
-    if(navigator.share) { navigator.share({files:[new File([blob],name,{type:"application/json"})],title:"Daily Log"}).catch(()=>{}); }
+    if(navigator.share) { navigator.share({files:[new File([blob],name,{type:"application/json"})],title:"Intuitive Tracker"}).catch(()=>{}); }
     else { const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name; a.click(); }
     apply(s=>({...s,lastExport:today}));
   };
